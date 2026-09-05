@@ -40,3 +40,4 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Preserve existing functionality when making changes.
 - Do not make destructive database changes without explicit approval.
 - When a task is unclear, inspect the existing project structure and documentation before implementing it.
+
