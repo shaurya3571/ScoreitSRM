@@ -385,7 +385,7 @@ export default function DesignSystemPage() {
           <CardHeader>
             <CardTitle>Breakpoint preview</CardTitle>
             <CardDescription>
-              These panels reflow at Tailwind's standard responsive breakpoints.
+              These panels reflow at Tailwind standard responsive breakpoints.
             </CardDescription>
           </CardHeader>
           <CardContent>
