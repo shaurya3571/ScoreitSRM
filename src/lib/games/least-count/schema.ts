@@ -32,8 +32,16 @@ export const gameSchema = z.object({
   rules: rulesSchema,
   rounds: z.array(roundSchema),
   log: z.array(logEntrySchema),
-});
+}).refine(
+  ({ players, rounds }) =>
+    rounds.every(
+      (r) =>
+        Object.keys(r.scores).length === players.length &&
+        players.every((p) => p in r.scores) &&
+        (r.wrongShow === null || players.includes(r.wrongShow)),
+    ),
+  "Every round needs a score for each player, and nobody else",
+);
 
 export type Rules = z.infer<typeof rulesSchema>;
 export type Game = z.infer<typeof gameSchema>;
-export type Round = Game["rounds"][number];

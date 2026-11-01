@@ -50,7 +50,14 @@ export function editScore(game: Game, round: number, player: string, value: numb
   const to = checkScore(player, value);
 
   const rounds = game.rounds.map((r) =>
-    r === target ? { ...r, scores: { ...r.scores, [player]: to } } : r,
+    r === target
+      ? {
+          ...r,
+          scores: { ...r.scores, [player]: to },
+          // An edited cell is no longer the penalty.
+          wrongShow: r.wrongShow === player ? null : r.wrongShow,
+        }
+      : r,
   );
   const entry = { type: "edit" as const, round, player, from: target.scores[player], to };
   return { ...game, rounds, log: [...game.log, entry] };

@@ -7,6 +7,7 @@ import {
   rankPlayers,
   undoRound,
 } from "./engine";
+import { gameSchema } from "./schema";
 
 const P = ["Aarav", "Priya", "Rohan"];
 const play = (rounds: number[][], players = P) =>
@@ -176,6 +177,12 @@ describe("editScore", () => {
     expect(before.log).toEqual([]);
   });
 
+  it("clears the wrong-show flag when that player's cell is edited", () => {
+    const { game } = applyRound(newGame(P), { Priya: 0, Rohan: 6 }, "Aarav");
+    expect(editScore(game, 1, "Aarav", 12).rounds[0].wrongShow).toBeNull();
+    expect(editScore(game, 1, "Priya", 1).rounds[0].wrongShow).toBe("Aarav");
+  });
+
   it("rejects bad rounds, players and values", () => {
     const game = play([[1, 2, 3]]);
     expect(() => editScore(game, 0, "Aarav", 1)).toThrow(/round/i);
@@ -201,5 +208,21 @@ describe("undoRound", () => {
   it("keeps earlier edits in the log", () => {
     const game = undoRound(editScore(play([[1, 2, 3], [4, 5, 6]]), 1, "Aarav", 7));
     expect(game.log.map((e) => e.type)).toEqual(["edit", "undo"]);
+  });
+});
+
+describe("gameSchema (used for saved or loaded games)", () => {
+  const saved = play([[0, 4, 9]]);
+
+  it("accepts a game the engine produced", () => {
+    expect(gameSchema.safeParse(saved).success).toBe(true);
+  });
+
+  it.each([
+    ["a round missing a player", { Aarav: 0, Priya: 4 }, null],
+    ["a round with a stranger", { Aarav: 0, Priya: 4, Rohan: 9, Zed: 1 }, null],
+    ["a wrong-show player who is not in the game", { Aarav: 0, Priya: 4, Rohan: 9 }, "Zed"],
+  ])("rejects %s", (_, scores, wrongShow) => {
+    expect(gameSchema.safeParse({ ...saved, rounds: [{ scores, wrongShow }] }).success).toBe(false);
   });
 });
