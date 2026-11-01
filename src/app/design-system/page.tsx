@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -289,17 +285,10 @@ export default function DesignSystemPage() {
         id="avatars"
         number="06"
         title="Avatars"
-        description="Image avatars with initials as a fallback."
+        description="Avatars with initials as a fallback."
       >
         <Card>
           <CardContent className="flex flex-wrap items-center gap-5 pt-6">
-            <div className="text-center">
-              <Avatar className="size-12">
-                <AvatarImage src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=96&h=96&fit=crop&crop=faces" alt="Example player" />
-                <AvatarFallback>AA</AvatarFallback>
-              </Avatar>
-              <p className="mt-2 text-xs text-muted-foreground">Image</p>
-            </div>
             <div className="text-center">
               <Avatar className="size-12">
                 <AvatarFallback>PR</AvatarFallback>

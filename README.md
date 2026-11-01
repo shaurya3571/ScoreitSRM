@@ -30,8 +30,7 @@ Open <http://localhost:3000>. The visual reference is at <http://localhost:3000/
 | `npm run build` | Production build |
 | `npm run start` | Serve the production build |
 | `npm run lint` | Run ESLint |
-
-There is no test runner yet; Vitest arrives in Phase 1.
+| `npm test` | Run unit tests (Vitest) |
 
 ## Environment variables
 

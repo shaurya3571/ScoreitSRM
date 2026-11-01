@@ -28,8 +28,9 @@ Phase 2.
 
 -   Pure TypeScript in `src/lib/games/least-count/`: types, Zod schemas,
     `applyRound`, `editScore`, `undoRound`, `computeStandings`,
-    `rankPlayers` with tie-break, rules config.
--   Add Vitest (new dev dependency; there is no test runner yet).
+    `rankPlayers` with tie-break, `reachedTarget`, rules config.
+-   Vitest 4 added as the test runner (`npm test`). Version 5 needs
+    `@types/node` 22 or newer.
 -   Tests: empty game, one player, multiple zeros, no-zero warning,
     ties, edits, undo, invalid/negative/non-integer input, penalty.
 
