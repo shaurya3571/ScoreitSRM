@@ -81,6 +81,12 @@ export function computeStandings(game: Game): Standing[] {
   });
 }
 
+/** True once any player's total reaches the target total. Always false when no target is set. */
+export function reachedTarget(game: Game): boolean {
+  const { targetTotal } = game.rules;
+  return targetTotal !== null && computeStandings(game).some((s) => s.total >= targetTotal);
+}
+
 /** Lowest total wins; ties go to the most zero-rounds; still tied means a shared rank (1, 1, 3). */
 export function rankPlayers(game: Game): RankedStanding[] {
   const sorted = computeStandings(game).sort((a, b) => a.total - b.total || b.zeros - a.zeros);

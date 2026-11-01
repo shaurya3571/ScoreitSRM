@@ -5,6 +5,7 @@ import {
   editScore,
   newGame,
   rankPlayers,
+  reachedTarget,
   undoRound,
 } from "./engine";
 import { gameSchema } from "./schema";
@@ -155,6 +156,28 @@ describe("rankPlayers", () => {
 
   it("shares rank 1 for everyone in an empty game", () => {
     expect(rankPlayers(newGame(P)).map((r) => r.rank)).toEqual([1, 1, 1]);
+  });
+});
+
+describe("reachedTarget", () => {
+  const withTarget = (rounds: number[][]) =>
+    rounds.reduce(
+      (g, r) => applyRound(g, { Aarav: r[0], Priya: r[1], Rohan: r[2] }).game,
+      newGame(P, { targetTotal: 50 }),
+    );
+
+  it("is always false when no target is set", () => {
+    expect(reachedTarget(play([[999, 0, 0]]))).toBe(false);
+  });
+
+  it("turns true when a player's total reaches the target, not before", () => {
+    expect(reachedTarget(withTarget([[49, 0, 0]]))).toBe(false);
+    expect(reachedTarget(withTarget([[20, 0, 0], [30, 0, 0]]))).toBe(true);
+    expect(reachedTarget(withTarget([[60, 0, 0]]))).toBe(true);
+  });
+
+  it("goes back to false after an undo", () => {
+    expect(reachedTarget(undoRound(withTarget([[10, 0, 0], [45, 0, 0]])))).toBe(false);
   });
 });
 
