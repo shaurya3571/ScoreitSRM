@@ -2,148 +2,88 @@
 
 ## Delivery approach
 
-Build incrementally, keep changes scoped to milestones, and verify
-lint/build/tests before merging. The roadmap is a plan, not proof that a
-milestone has been completed. Update status only after checking the
+Build incrementally, keep changes scoped to one phase, and verify
+lint, build and tests before merging. The roadmap is a plan, not proof
+that a phase is complete. Update status only after checking the
 repository and relevant PRs.
 
-## M0 --- Product and architecture
+The order is playable first: the scoring engine and a no-login local
+game come before the database, so the app is usable on game night after
+Phase 2.
 
--   Confirm MVP scope and Least Count rules.
--   Document requirements, architecture, design direction, and milestone
-    order.
--   Define security and data-integrity expectations.
+## Phase 0 --- Reset: theme, no logo, docs
 
-## M1 --- Project foundation
+-   Apply the "Card Table" theme tokens and fonts (Bricolage Grotesque,
+    Inter, Geist Mono).
+-   No logo anywhere: remove the "S" badge, favicon and template SVGs.
+    Brand is the text wordmark "ScoreitSRM".
+-   New navbar: wordmark plus Game, Warriors and History links; mobile
+    menu kept.
+-   Update `/design-system` (tokens, player chips, wordmark, sample
+    scorecard row).
+-   Rewrite `README.md`; add `.env.example`; update this roadmap and
+    `DESIGN-BRIEF.md`.
 
--   Establish Next.js, TypeScript, Tailwind CSS, and shadcn/ui.
--   Configure linting and production build.
--   Establish Git/GitHub workflow and environment conventions.
+## Phase 1 --- Scoring engine
 
-## M2 --- Design system and shared UI
+-   Pure TypeScript in `src/lib/games/least-count/`: types, Zod schemas,
+    `applyRound`, `editScore`, `undoRound`, `computeStandings`,
+    `rankPlayers` with tie-break, rules config.
+-   Add Vitest (new dev dependency; there is no test runner yet).
+-   Tests: empty game, one player, multiple zeros, no-zero warning,
+    ties, edits, undo, invalid/negative/non-integer input, penalty.
 
--   **M2.1:** Design tokens and typography.
--   **M2.2:** UI primitives: Button, Card, Badge, Avatar, Input,
-    Skeleton, Separator; optional Dialog and Tooltip.
--   **M2.3:** Navbar, Footer, Container, responsive layout, mobile
-    navigation.
--   **M2.4:** Shared loading, empty, and error states.
--   **M2.5:** Design-system showcase for visual verification.
--   **M2.6:** Final responsive, accessibility, and component polish.
--   Add and maintain `AGENTS.md` development instructions.
+## Phase 2 --- Local playable game (no login, no database)
 
-## M3 --- Landing and scoreboard frontend
+-   Routes `/`, `/game/new`, `/game/[id]`.
+-   Components: LiveTable, ScoreEntry, Scorecard, RulesChip,
+    FinishDialog, WinnerView.
+-   Reducer on top of the Phase 1 engine; versioned `localStorage`
+    persistence with try/catch and a clear error state.
 
--   Build the landing page and reusable scoreboard presentation.
--   Use clearly labeled demo data until real data integration exists.
--   Verify mobile, tablet, and desktop behavior.
+## Phase 3 --- Supabase: schema, RLS, auth
 
-## M4 --- Database foundation
+-   Migrations: profiles, warriors, games, game_players, rounds, scores,
+    game_events; constraints, indexes, RLS on every table.
+-   Google OAuth, session-refresh proxy, sign-in/out UI.
+-   RLS tests proving cross-user isolation.
 
--   Design and review the schema for profiles, games, memberships,
-    rounds, and score entries.
--   Add migrations, constraints, indexes, and appropriate Row Level
-    Security policies.
--   Document local setup and required environment variables.
+## Phase 4 --- Persistence
 
-## M5 --- Authentication
+-   Server actions with Zod; server-side total recompute (client totals
+    are never trusted).
+-   Save and resume games; Warriors roster CRUD; guest-to-account
+    import.
 
--   Integrate Supabase Auth.
--   Implement sign-in, sign-up, sign-out, and session handling as
-    required.
--   Protect authenticated routes and data access.
+## Phase 5 --- Invite and realtime
 
-## M6 --- Create game
+-   Invite and spectator links.
+-   Scoped Supabase Realtime with reconnect handling.
 
--   Create a game with validated settings and participants.
--   Enforce ownership and membership rules.
+## Phase 6 --- History, leaderboard, stats
 
-## M7 --- Game room
+-   Paginated history, per-game detail, leaderboard, head-to-head and
+    stats (Recharts).
 
--   Show players, game status, round context, and current standings.
--   Add clear loading, empty, and error handling.
+## Phase 7 --- Hardening
 
-## M8 --- Scoring engine
+-   Playwright e2e, security review, PWA manifest and install,
+    error/404 pages, text-only OG metadata, accessibility and
+    performance pass, delete-my-data flow.
 
--   Implement Least Count scoring rules as testable domain logic.
--   Validate boundaries and edge cases.
--   Keep authoritative scoring logic outside presentational components.
+## Phase 8 --- Ludo
 
-## M9 --- Score submission
+-   Separate module with its own rules (finishing positions to points).
+-   Do not modify Least Count code. Do not show Ludo stats or UI before
+    this phase.
 
--   Submit and persist scores securely.
--   Handle duplicate submissions, invalid transitions, and failures.
-
-## M10 --- Realtime updates
-
--   Add scoped realtime updates where they improve collaboration.
--   Handle reconnects and stale state.
-
-## M11 --- Security and permissions
-
--   Review RLS policies, server-side authorization, validation, and game
-    membership boundaries.
--   Test unauthorized and cross-user access.
-
-## M12 --- Game completion
-
--   Implement completion conditions and final standings.
--   Verify scoring and completion edge cases.
-
-## M13 --- Game history
-
--   List previous games and show their results.
--   Add appropriate pagination or filtering when needed.
-
-## M14 --- Leaderboards
-
--   Implement defined leaderboard rules and queries.
--   Make ranking and tie behavior explicit.
-
-## M15 --- Profiles and statistics
-
--   Add profile details and game statistics supported by actual
-    persisted data.
-
-## M16 --- Invitations
-
--   Add participant invitations and secure joining flows if required by
-    the product scope.
-
-## M17 --- Mobile/PWA
-
--   Improve mobile ergonomics and evaluate installability/offline needs.
--   Do not promise offline synchronization until conflict handling is
-    designed.
-
-## M18 --- Testing and security review
-
--   Add unit, integration, and end-to-end coverage appropriate to the
-    stack.
--   Review authorization, data integrity, and failure cases.
-
-## M19 --- Polish and performance
-
--   Improve loading behavior, accessibility, performance, metadata, and
-    deployment readiness.
-
-## M20 --- Ludo
-
--   Treat Ludo as a separate game mode with its own explicit rules and
-    state model.
--   Do not mix Ludo rules into Least Count-specific logic.
-
-## M21 --- Advanced features
-
--   Prioritize additional capabilities based on validated user needs,
-    not speculation.
-
-## Definition of done for each milestone
+## Definition of done for each phase
 
 -   Acceptance criteria are met.
 -   Lint and production build pass.
 -   Relevant automated tests pass or limitations are recorded.
--   UI is checked at mobile, tablet, and desktop widths when applicable.
+-   UI is checked at 390, 768 and 1280 px, with keyboard only and with
+    reduced motion, when applicable.
 -   Security and accessibility implications are addressed.
 -   Only intended files are included in the diff.
 -   Required documentation is updated.

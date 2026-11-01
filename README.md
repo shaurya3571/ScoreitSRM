@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ScoreitSRM
 
-## Getting Started
+A mobile-first web app for scoring the card game **Least Count** (lowest total wins), with leaderboards and history. Ludo comes last.
 
-First, run the development server:
+Brand: text wordmark only. There is no logo, icon or badge anywhere in the app.
+
+## Status
+
+Phase 0 (theme reset) is done. There is no playable game yet. See [`src/docs/DEVELOPMENT-ROADMAP.md`](src/docs/DEVELOPMENT-ROADMAP.md) for the phase list. The Warriors and History links in the navbar point to routes that arrive in later phases.
+
+## Stack
+
+Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4, shadcn/ui, Supabase (not wired up yet), Zod, Recharts.
+
+## Setup
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in the values
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>. The visual reference is at <http://localhost:3000/design-system>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Script | What it does |
+|---|---|
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build |
+| `npm run start` | Serve the production build |
+| `npm run lint` | Run ESLint |
 
-## Learn More
+There is no test runner yet; Vitest arrives in Phase 1.
 
-To learn more about Next.js, take a look at the following resources:
+## Environment variables
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+See [`.env.example`](.env.example).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Variable | Purpose |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Supabase publishable (anon) key. Safe for the browser; access is controlled by Row Level Security |
 
-## Deploy on Vercel
+Never put a service-role key in a `NEXT_PUBLIC_` variable or commit any `.env` file.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Fonts (Bricolage Grotesque, Inter, Geist Mono) are loaded with `next/font/google`, so the build needs network access to Google Fonts.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Docs
+
+- [`AGENTS.md`](AGENTS.md): development rules
+- [`src/docs/PRD.md`](src/docs/PRD.md), [`ARCHITECTURE.md`](src/docs/ARCHITECTURE.md), [`DESIGN-BRIEF.md`](src/docs/DESIGN-BRIEF.md), [`DEVELOPMENT-ROADMAP.md`](src/docs/DEVELOPMENT-ROADMAP.md)

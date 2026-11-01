@@ -28,18 +28,31 @@ export const metadata: Metadata = {
 
 const colors = [
   { name: "Background", variable: "--background" },
-  { name: "Foreground", variable: "--foreground" },
+  { name: "Foreground / ink", variable: "--foreground" },
+  { name: "Card", variable: "--card" },
   { name: "Primary", variable: "--primary" },
   { name: "Secondary", variable: "--secondary" },
   { name: "Muted", variable: "--muted" },
+  { name: "Accent (zero round)", variable: "--accent" },
   { name: "Border", variable: "--border" },
+  { name: "Input", variable: "--input" },
+  { name: "Destructive", variable: "--destructive" },
   { name: "Success", variable: "--success" },
   { name: "Warning", variable: "--warning" },
-  { name: "Player green", variable: "--player-green" },
-  { name: "Player pink", variable: "--player-pink" },
-  { name: "Player orange", variable: "--player-orange" },
-  { name: "Player blue", variable: "--player-blue" },
 ];
+
+const players = [
+  { name: "Aarav", token: "bg-player-1" },
+  { name: "Priya", token: "bg-player-2" },
+  { name: "Rohan", token: "bg-player-3" },
+  { name: "Ananya", token: "bg-player-4" },
+  { name: "Kabir", token: "bg-player-5" },
+  { name: "Meera", token: "bg-player-6" },
+];
+
+// Demo data only: not a real game.
+const sampleRounds = [12, 0, 25, 8, 0, 17];
+const sampleTotal = sampleRounds.reduce((sum, value) => sum + value, 0);
 
 function Section({
   id,
@@ -80,7 +93,7 @@ export default function DesignSystemPage() {
       <header className="rounded-3xl border border-border bg-card p-6 sm:p-10">
         <Badge>Internal showcase</Badge>
         <h1 className="mt-4 font-heading text-4xl font-bold tracking-tight sm:text-5xl">
-          Design system<span className="text-primary">.</span>
+          Design system
         </h1>
         <p className="mt-4 max-w-2xl leading-7 text-muted-foreground">
           One place to inspect ScoreitSRM typography, colors, reusable
@@ -98,6 +111,9 @@ export default function DesignSystemPage() {
             ["Inputs", "#inputs"],
             ["States", "#states"],
             ["Responsive", "#responsive"],
+            ["Wordmark", "#wordmark"],
+            ["Player chips", "#player-chips"],
+            ["Scorecard", "#scorecard"],
           ].map(([label, href]) => (
             <a
               key={href}
@@ -114,7 +130,7 @@ export default function DesignSystemPage() {
         id="typography"
         number="01"
         title="Typography"
-        description="Inter for body text, Plus Jakarta Sans for headings, and Geist Mono for code."
+        description="Inter for body text, Bricolage Grotesque for headings, and Geist Mono with tabular numerals for scores."
       >
         <Card>
           <CardContent className="space-y-5 pt-6">
@@ -141,8 +157,8 @@ export default function DesignSystemPage() {
             </div>
             <Separator />
             <div>
-              <p className="text-xs text-muted-foreground">Monospace</p>
-              <code className="font-mono text-sm">round.totalScore = 42;</code>
+              <p className="text-xs text-muted-foreground">Scores / Geist Mono, tabular</p>
+              <p className="score-num text-3xl font-semibold">0 12 25 108</p>
             </div>
           </CardContent>
         </Card>
@@ -391,9 +407,9 @@ export default function DesignSystemPage() {
           <CardContent>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {[
-                ["Mobile", "Single-column layout", "bg-player-pink"],
-                ["Tablet", "Two-column layout", "bg-player-green"],
-                ["Desktop", "Three-column layout", "bg-player-blue"],
+                ["Mobile", "Single-column layout", "bg-player-2"],
+                ["Tablet", "Two-column layout", "bg-player-1"],
+                ["Desktop", "Three-column layout", "bg-player-4"],
               ].map(([title, description, color]) => (
                 <div
                   key={title}
@@ -410,6 +426,108 @@ export default function DesignSystemPage() {
             </p>
           </CardContent>
         </Card>
+      </Section>
+
+      <Section
+        id="wordmark"
+        number="10"
+        title="Wordmark"
+        description="The brand is text only: no logo, icon, badge or suit symbol. Set in the heading font."
+      >
+        <Card>
+          <CardContent className="flex flex-wrap items-center gap-8 pt-6">
+            <p className="font-heading text-4xl font-bold tracking-tight">
+              ScoreitSRM
+            </p>
+            <p className="font-heading text-xl font-bold tracking-tight">
+              ScoreitSRM
+            </p>
+          </CardContent>
+        </Card>
+      </Section>
+
+      <Section
+        id="player-chips"
+        number="11"
+        title="Player chips"
+        description="Tinted fill plus the player's initial, so identity never depends on colour alone."
+      >
+        <Card>
+          <CardContent className="flex flex-wrap gap-4 pt-6">
+            {players.map((player) => (
+              <div key={player.name} className="flex items-center gap-3">
+                <span
+                  aria-hidden
+                  className={`flex size-11 items-center justify-center rounded-xl font-heading text-lg font-bold text-foreground ${player.token}`}
+                >
+                  {player.name.charAt(0)}
+                </span>
+                <span className="text-sm font-medium">{player.name}</span>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      </Section>
+
+      <Section
+        id="scorecard"
+        number="12"
+        title="Scorecard row"
+        description="Ruled paper score pad. An amber cell marks a 0 round. Demo data only."
+      >
+        <div className="overflow-x-auto rounded-xl border border-border bg-card">
+          <table className="w-full min-w-[34rem] border-collapse text-sm">
+            <caption className="sr-only">Sample scorecard row (demo data)</caption>
+            <thead>
+              <tr className="border-b border-border bg-muted text-left text-xs text-muted-foreground">
+                <th scope="col" className="sticky left-0 bg-muted px-3 py-2 font-medium">
+                  Player
+                </th>
+                {sampleRounds.map((_, index) => (
+                  <th key={index} scope="col" className="px-3 py-2 text-center font-medium">
+                    R{index + 1}
+                  </th>
+                ))}
+                <th scope="col" className="sticky right-0 bg-muted px-3 py-2 text-right font-medium">
+                  Total
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border">
+                <th scope="row" className="sticky left-0 bg-card px-3 py-2 text-left font-medium">
+                  <span className="flex items-center gap-2">
+                    <span className="flex size-6 items-center justify-center rounded-md bg-secondary text-xs font-bold">
+                      1
+                    </span>
+                    <span
+                      aria-hidden
+                      className="flex size-8 items-center justify-center rounded-lg bg-player-1 font-heading font-bold"
+                    >
+                      A
+                    </span>
+                    Aarav
+                  </span>
+                </th>
+                {sampleRounds.map((value, index) => (
+                  <td
+                    key={index}
+                    className={`score-num px-3 py-2 text-center ${
+                      value === 0
+                        ? "bg-accent font-semibold text-accent-foreground"
+                        : ""
+                    }`}
+                  >
+                    {value}
+                  </td>
+                ))}
+                <td className="score-num sticky right-0 bg-card px-3 py-2 text-right text-lg font-semibold">
+                  {sampleTotal}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </Section>
 
       <Separator />

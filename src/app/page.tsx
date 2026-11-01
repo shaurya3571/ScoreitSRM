@@ -93,10 +93,10 @@ export default function Home() {
 
                 <div className="mt-7 space-y-3">
                   {[
-                    { name: "Aarav", score: 42, color: "bg-player-green" },
-                    { name: "Priya", score: 35, color: "bg-player-pink" },
-                    { name: "Rohan", score: 28, color: "bg-player-orange" },
-                    { name: "Ananya", score: 19, color: "bg-player-blue" },
+                    { name: "Aarav", score: 42, color: "bg-player-1" },
+                    { name: "Priya", score: 35, color: "bg-player-2" },
+                    { name: "Rohan", score: 28, color: "bg-player-3" },
+                    { name: "Ananya", score: 19, color: "bg-player-4" },
                   ].map((player, index) => (
                     <div
                       key={player.name}

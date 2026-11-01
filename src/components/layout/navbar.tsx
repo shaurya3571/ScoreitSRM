@@ -2,17 +2,25 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { Container } from "./container";
+import { Wordmark } from "./wordmark";
 
 const links = [
-  { label: "Features", href: "/#features" },
-  { label: "How to play", href: "/#how-it-works" },
-  { label: "About", href: "/#about" },
+  { label: "Game", href: "/" },
+  { label: "Warriors", href: "/warriors" },
+  { label: "History", href: "/history" },
 ];
+
+function isActive(pathname: string, href: string) {
+  return href === "/" ? pathname === "/" : pathname.startsWith(href);
+}
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
@@ -21,72 +29,69 @@ export function Navbar() {
           aria-label="Main navigation"
           className="flex min-h-16 items-center justify-between gap-4"
         >
-          <Link
-            href="/"
-            className="flex shrink-0 items-center gap-2 rounded-md font-heading text-xl font-bold tracking-tight text-foreground"
-            onClick={() => setMenuOpen(false)}
-          >
-            <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-sm font-bold text-primary-foreground">
-              S
-            </span>
-            <span>Scoreit<span className="text-primary">SRM</span></span>
-          </Link>
+          <Wordmark className="shrink-0" onClick={() => setMenuOpen(false)} />
 
-          <div className="hidden items-center gap-7 md:flex">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {link.label}
-              </Link>
-            ))}
-
-            <Link
-              href="/#get-started"
-              className="inline-flex min-h-10 items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-            >
-              Get started
-            </Link>
-          </div>
+          <ul className="hidden items-center gap-1 md:flex">
+            {links.map((link) => {
+              const active = isActive(pathname, link.href);
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "inline-flex min-h-11 items-center rounded-lg px-4 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground",
+                      active
+                        ? "bg-secondary text-foreground"
+                        : "text-muted-foreground",
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
 
           <button
             type="button"
-            className="inline-flex size-10 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:bg-muted md:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-lg border border-border text-foreground transition-colors hover:bg-muted md:hidden"
             aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setMenuOpen((open) => !open)}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") setMenuOpen(false);
+            }}
           >
-            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+            {menuOpen ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
           </button>
         </nav>
 
         {menuOpen && (
-          <div
+          <ul
             id="mobile-navigation"
             className="flex flex-col gap-1 border-t border-border py-3 md:hidden"
           >
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="rounded-lg px-3 py-3 text-sm font-medium text-foreground hover:bg-muted"
-              >
-                {link.label}
-              </Link>
-            ))}
-
-            <Link
-              href="/#get-started"
-              onClick={() => setMenuOpen(false)}
-              className="mt-2 inline-flex min-h-11 items-center justify-center rounded-xl bg-primary px-5 text-sm font-semibold text-primary-foreground"
-            >
-              Get started
-            </Link>
-          </div>
+            {links.map((link) => {
+              const active = isActive(pathname, link.href);
+              return (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    aria-current={active ? "page" : undefined}
+                    onClick={() => setMenuOpen(false)}
+                    className={cn(
+                      "flex min-h-11 items-center rounded-lg px-3 text-sm font-medium hover:bg-muted",
+                      active ? "bg-secondary text-foreground" : "text-foreground",
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         )}
       </Container>
     </header>

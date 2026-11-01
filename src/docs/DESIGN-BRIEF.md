@@ -23,26 +23,39 @@ scores, and standings without visual clutter.
 
 ## 3. Visual foundation
 
-The current design tokens are defined in `src/app/globals.css`. Use them
-rather than inventing unrelated colors.
+The design tokens are defined in `src/app/globals.css`. Use them rather
+than inventing unrelated colors. Treat the CSS variables as the source
+of truth and verify the actual stylesheet before assuming a token
+exists.
 
-The established direction includes: - Warm off-white page background. -
-Dark plum/ink foreground. - Purple primary action color. - White cards
-with subtle borders. - Muted neutral surfaces and text. - Soft green,
-pink, orange, and blue player accents. - Rounded corners and restrained
-shadows.
+**Theme "Card Table":** a cream-and-green card table.
 
-Treat CSS variables as the source of truth. Verify the actual stylesheet
-before assuming a token exists.
+-   Cream-green page background, deep green ink, white cards with
+    subtle borders.
+-   Green primary action color; amber accent reserved for a 0 round and
+    the leader highlight.
+-   Six player chip tints (`player-1` to `player-6`), each with a darker
+    dark-mode variant. A chip always shows the player's initial, never
+    colour alone.
+-   Radius 0.75rem; minimal shadows.
+-   The scorecard is styled like a ruled paper score pad.
+-   Motion is limited to a count-up on total change and a row-reorder
+    transition. Both are disabled under `prefers-reduced-motion`.
+
+### No logo
+
+ScoreitSRM has no logo. The brand is the text wordmark "ScoreitSRM" in
+the heading font. Do not add an icon badge, logo image, suit-symbol
+mark, logo-based favicon or OG image. OG metadata is text only.
 
 ## 4. Typography
 
+-   Bricolage Grotesque is the heading font.
 -   Inter is the body font.
--   Plus Jakarta Sans is the heading font.
--   Geist Mono is available for code-like or tabular technical content.
+-   Geist Mono with tabular numerals is used for scores and totals
+    (`.score-num`).
+-   No italic-serif accent words.
 -   Use clear hierarchy and readable line lengths.
--   Use tabular numerals for scores where helpful.
--   Avoid overly tight tracking on long body text.
 
 ## 5. Layout and spacing
 
@@ -99,13 +112,28 @@ dialogs, and state components at each width.
 
 The `/design-system` route should demonstrate typography, colors,
 buttons, cards, badges, avatars, inputs, shared states, and responsive
-behavior. Update it when reusable design primitives change materially.
+behavior, plus the wordmark, player chips and a sample scorecard row.
+Update it when reusable design primitives change materially.
 
-## 11. Avoid
+## 11. Scoring UI rules
+
+-   Score inputs start empty, never 0, because 0 is the best score.
+    "Save round" stays disabled until every active player has a value.
+-   Use numeric keypad entry (`inputmode="numeric"`); Enter or Tab
+    advances to the next player. No +/- steppers as the primary input.
+-   The scorecard has a sticky player column and a sticky total column;
+    only the table scrolls horizontally, with the latest round in view.
+    Each row has a rank badge and there is a sort-by-rank toggle.
+-   An active game is the first thing on screen; no hero above it.
+-   Do not show Ludo UI or stats until Ludo is built.
+
+## 12. Avoid
 
 -   Unnecessary gradients, heavy shadows, and decorative animations.
 -   Inconsistent corner radii or arbitrary spacing.
--   Unexplained icon-only controls.
--   Tiny touch targets on mobile.
+-   Any logo, icon badge or logo-based favicon.
+-   Unexplained icon-only controls; every icon-only control needs a
+    visible label or tooltip and an accessible name.
+-   Touch targets under 44px on mobile.
 -   Placeholder links presented as finished functionality.
 -   Duplicated component styles when a shared primitive already exists.
