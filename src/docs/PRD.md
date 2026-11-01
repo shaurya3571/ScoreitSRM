@@ -131,6 +131,27 @@ happens when a participant leaves or is removed.
 
 Do not infer ambiguous game rules in production code.
 
+### Defaults implemented in the Phase 1 engine
+
+These are the defaults implemented in `src/lib/games/least-count/`.
+The owner has not yet explicitly confirmed every one. Change them here
+first, then in code.
+
+-   A round score is a whole number, 0 or more. Lowest total wins.
+-   2 to 8 players with unique names. Several players may score 0 in
+    one round. If nobody does, the round is saved with a warning.
+-   Wrong show: that player's round score is the game's penalty
+    (default 30), replacing their hand total. It is not a zero-round.
+-   Target total: optional, off by default. `reachedTarget` is true once
+    any player's total is at or above it. The engine does not end the
+    game by itself.
+-   Ranking: lowest total, then most zero-rounds. Still tied means a
+    shared rank (1, 1, 3).
+-   Corrections: the owner can edit any past cell and undo the last
+    round. Both are recorded in the game log.
+-   Not decided yet: duplicate submissions and removing a player
+    mid-game.
+
 ## 9. Non-functional requirements
 
 ### Security

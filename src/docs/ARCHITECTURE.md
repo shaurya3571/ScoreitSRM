@@ -80,8 +80,12 @@ queries.
 -   Do not trust client-calculated totals as the authoritative persisted
     result.
 
-Exact rules and edge cases must be specified in the PRD or a dedicated
-game-rules document before implementation.
+Exact rules and edge cases are specified in PRD section 8.
+
+Implementation: `src/lib/games/least-count/` holds pure functions over
+an immutable `Game` value (`engine.ts`) and its Zod schema
+(`schema.ts`). Any saved or loaded game, from `localStorage` now or the
+database later, must pass `gameSchema` before the engine uses it.
 
 ## 6. Authentication and authorization
 
