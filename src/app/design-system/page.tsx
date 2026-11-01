@@ -114,7 +114,7 @@ export default function DesignSystemPage() {
         id="typography"
         number="01"
         title="Typography"
-        description="Inter for body text, Plus Jakarta Sans for headings, and Geist Mono for code."
+        description="Inter for body text, Bricolage Grotesque for headings, and Geist Mono for code."
       >
         <Card>
           <CardContent className="space-y-5 pt-6">
@@ -391,9 +391,9 @@ export default function DesignSystemPage() {
           <CardContent>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {[
-                ["Mobile", "Single-column layout", "bg-player-pink"],
-                ["Tablet", "Two-column layout", "bg-player-green"],
-                ["Desktop", "Three-column layout", "bg-player-blue"],
+                ["Mobile", "Single-column layout", "bg-player-2"],
+                ["Tablet", "Two-column layout", "bg-player-1"],
+                ["Desktop", "Three-column layout", "bg-player-4"],
               ].map(([title, description, color]) => (
                 <div
                   key={title}
