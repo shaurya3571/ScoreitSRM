@@ -44,10 +44,10 @@ Follow the existing structure and extend it consistently.
 - `public/`: Static assets.
 - `supabase/`: Database migrations and Supabase configuration, if present.
 - `AGENTS.md`: Project-wide development instructions.
-- `PRD.md`: Product requirements.
-- `ARCHITECTURE.md`: System design and technical boundaries.
-- `DESIGN-BRIEF.md`: Visual and interaction principles.
-- `DEVELOPMENT-ROADMAP.md`: Milestones and implementation order.
+- `src/docs/PRD.md`: Product requirements.
+- `src/docs/ARCHITECTURE.md`: System design and technical boundaries.
+- `src/docs/DESIGN-BRIEF.md`: Visual and interaction principles.
+- `src/docs/DEVELOPMENT-ROADMAP.md`: Milestones and implementation order.
 
 This structure is a guideline. Inspect the actual repository before creating directories or moving files.
 
@@ -56,10 +56,10 @@ This structure is a guideline. Inspect the actual repository before creating dir
 Before implementing a feature, inspect relevant files and documentation.
 
 Use:
-1. `PRD.md` for product scope and requirements.
-2. `ARCHITECTURE.md` for architectural decisions.
-3. `DESIGN-BRIEF.md` for UI and visual conventions.
-4. `DEVELOPMENT-ROADMAP.md` for milestone scope and sequencing.
+1. `src/docs/PRD.md` for product scope and requirements.
+2. `src/docs/ARCHITECTURE.md` for architectural decisions.
+3. `src/docs/DESIGN-BRIEF.md` for UI and visual conventions.
+4. `src/docs/DEVELOPMENT-ROADMAP.md` for milestone scope and sequencing.
 5. Existing code for established implementation patterns.
 
 Do not silently contradict documented decisions. If a change is necessary, explain why and update the relevant documentation.
@@ -214,10 +214,10 @@ Fix the underlying issue rather than disabling lint rules, weakening types, or h
 
 Update documentation when a change materially affects architecture, setup, database design, security, or product behavior.
 
-- Keep `PRD.md` focused on requirements.
-- Keep `ARCHITECTURE.md` focused on technical structure and decisions.
-- Keep `DESIGN-BRIEF.md` focused on visual and interaction standards.
-- Keep `DEVELOPMENT-ROADMAP.md` focused on milestones and delivery order.
+- Keep `src/docs/PRD.md` focused on requirements.
+- Keep `src/docs/ARCHITECTURE.md` focused on technical structure and decisions.
+- Keep `src/docs/DESIGN-BRIEF.md` focused on visual and interaction standards.
+- Keep `src/docs/DEVELOPMENT-ROADMAP.md` focused on milestones and delivery order.
 - Keep this file focused on development rules.
 
 Avoid duplicating large sections across documents.

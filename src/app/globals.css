@@ -25,7 +25,6 @@
   --color-ring: var(--ring);
   --color-success: var(--success);
   --color-warning: var(--warning);
-  --color-ink: var(--ink);
   --color-player-1: var(--player-1);
   --color-player-2: var(--player-2);
   --color-player-3: var(--player-3);
@@ -78,7 +77,6 @@
   --input: #C9D3C6;
   --ring: #0D6B50;
 
-  --ink: #12261E;
   --player-1: #CFE8D9;
   --player-2: #FAD4D8;
   --player-3: #FCE3C0;
@@ -87,11 +85,6 @@
   --player-6: #F6EBB0;
 
   --radius: 0.75rem;
-
-  --shadow-card: 0 1px 3px rgb(18 38 30 / 6%);
-  --shadow-floating: 0 8px 24px rgb(18 38 30 / 10%);
-
-  --space-section: 5rem;
 }
 
 .dark {
@@ -126,7 +119,6 @@
   --input: #2F473B;
   --ring: #4FD1A1;
 
-  --ink: #EAF2EC;
   --player-1: #1F4A38;
   --player-2: #55303A;
   --player-3: #5A4326;
@@ -148,7 +140,6 @@
   body {
     @apply bg-background text-foreground;
     min-height: 100vh;
-    font-family: var(--font-inter), sans-serif;
     font-feature-settings: "kern";
     text-rendering: optimizeLegibility;
   }
